@@ -2,10 +2,11 @@
 %basePath = 'C:\Users\UIAI\Desktop\크레인분석\Data\'; % Data  extractData
 basePath = '/Users/dustin08/Documents/Github/PHM_Solutions_Crane_Mock_Test/extractData'; % 경로수정
 targetDate = '260806';                          % [변수] 날짜 폴더명
-%targetRPM = '60';
-targetRPM = '70';
+targetRPM = '60';
+%targetRPM = '70';
 %targetRPM = '80';
-targetCondition = fullfile('정상1', 'Vib');   % [변수] 상태 및 하위 폴더 경로
+targetCondition = fullfile('체인마모1', 'Vib');   % [변수] 상태 및 하위 폴더 경로
+%targetCondition = fullfile('정상3', 'Vib');   % [변수] 상태 및 하위 폴더 경로
 
 % 기본 신호 처리 매개변수
 fs = 3200;           % 샘플링 주파수 (Hz)
@@ -31,9 +32,9 @@ plottype = 2;
 xlimVal = [1 300];   % [최소주파수 최대주파수] (예: 1Hz ~ 1000Hz)
 
 % 오버랩(Overlap) 및 시각화 옵션
-%winTime = 2;          % Δf = 1/winTime = 1/2 = 0.5Hz 해상도,  0.5초 단위로 나옴 [60Hz시 사용]
-winTime = 1;         % 이동 윈도우 시간 (초 단위), 1초 단위로 나옴                 [70Hz시 사용]
-% winTime = 1.5;      % 0.33초 단위로 나옴                                    [80Hz시 사용]
+winTime = 2;          % Δf = 1/winTime = 1/2 = 0.5Hz 해상도,  0.5초 단위로 나옴 [60Hz시 사용]
+%winTime = 1;         % 이동 윈도우 시간 (초 단위), 1초 단위로 나옴                  [70Hz시 사용]
+%winTime = 1.5;      % 0.33초 단위로 나옴                                     [80Hz시 사용]
 overlapRatio = 0.8;    % 오버랩 비율 (0.8 = 80% 중첩)
 use_dB = 0;        % true: dB 스케일(20*log10), false: 선형 스케일
 
