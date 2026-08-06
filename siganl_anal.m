@@ -23,13 +23,17 @@ processtype = 1;
 % 1: 파일별 대표 RMS 트렌드 (File-by-File RMS)
 % 2: 주파수 스펙트럼 (1D Frequency Spectrum)
 % 3: 스펙트로그램 (2D Time-Frequency Spectrogram)
-plottype = 3;
+%plottype = 3;
+plottype = 2;
 
 % ★ 3. 주파수 관찰 범위 설정 (Hz) ★
-xlimVal = [1 100];   % [최소주파수 최대주파수] (예: 1Hz ~ 1000Hz)
+%xlimVal = [1 100];   % [최소주파수 최대주파수] (예: 1Hz ~ 1000Hz)
+xlimVal = [1 300];   % [최소주파수 최대주파수] (예: 1Hz ~ 1000Hz)
 
 % 오버랩(Overlap) 및 시각화 옵션
-winTime = 1;         % 이동 윈도우 시간 (초 단위)
+winTime = 2;          % Δf = 1/winTime = 1/2 = 0.5Hz 해상도,  0.5초 단위로 나옴 [60Hz시 사용]
+%winTime = 1;         % 이동 윈도우 시간 (초 단위), 1초 단위로 나옴                 [70Hz시 사용]
+% winTime = 1.5;      % 0.33초 단위로 나옴                                    [80Hz시 사용]
 overlapRatio = 0.8;    % 오버랩 비율 (0.8 = 80% 중첩)
 use_dB = 0;        % true: dB 스케일(20*log10), false: 선형 스케일
 
