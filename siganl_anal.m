@@ -1,7 +1,10 @@
 %% 1. 경로 및 설정 변수 (사용자 정의 영역)
-basePath = 'C:\Users\UIAI\Desktop\크레인분석\Data\'; % Data  extractData
+%basePath = 'C:\Users\UIAI\Desktop\크레인분석\Data\'; % Data  extractData
+basePath = '/Users/dustin08/Documents/Github/PHM_Solutions_Crane_Mock_Test/extractData'; % 경로수정
 targetDate = '260806';                          % [변수] 날짜 폴더명
+%targetRPM = '60';
 targetRPM = '70';
+%targetRPM = '80';
 targetCondition = fullfile('정상1', 'Vib');   % [변수] 상태 및 하위 폴더 경로
 
 % 기본 신호 처리 매개변수
