@@ -1,13 +1,18 @@
 %% 1. 경로 및 설정 변수
-basePath = 'C:\Users\UIAI\Desktop\크레인분석\Data\';
+%basePath = 'C:\Users\UIAI\Desktop\크레인분석\Data\';
+basePath = '/Users/dustin08/Documents/Github/PHM_Solutions_Crane_Mock_Test/Data'; % 경로수정
 targetDate = '260806';                          % [변수] 날짜 폴더명
+%targetRPM = '60';
 targetRPM = '70';
+%targetRPM = '80';
 targetCondition = fullfile('정상1', 'Vib');   % [변수] 상태 및 하위 폴더 경로
 
 fs = 3200;           % 샘플링 주파수 (Hz)
 winTime = 1;       % 이동 RMS 계산 윈도우 시간 (초 단위, 공정 주기에 맞게 조정 가능)
 processtype = 0;     % 0: Raw, 1: Velocity Converted, 2: Envelope Signal
-thresVal = 0.1;
+%thresVal = 0.1;
+thresVal = 0.2; % 임계치 상향 조정
+
 %% 2. 데이터 로드 및 전처리 (전체 신호 연결)
 fullFolderPath = fullfile(basePath, targetDate,targetRPM, targetCondition);
 matFiles = dir(fullfile(fullFolderPath, '*.mat'));
