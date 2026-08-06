@@ -1,0 +1,11 @@
+1. "feature_extraction.m" is implemented by using following built-in methods in matlab
+
+[E]=entropy(varargin)
+[k]=kurtosis(x,flag,dim)
+[sigma]=moment(x,order,dim)
+[s]=skewness(x,flag,dim)
+
+2. "feature_selection.m" is implemetned by using GA toolbox which has lisence. Therefore, you should be careful and you cannot distribute GA toolbx.
+You can see detail documents of GA toolbox in "\\203.250.77.113\Source codes\Libraries\GA toolbox"
+
+3. You should include GA toolbox in your MATLAB library path to use these functions

@@ -1,0 +1,19 @@
+NAME: tsptest4
+TYPE: TSP
+COMMENT: 4 locations somewhere (Ming-Der, Pohlheim)
+DIMENSION: 4
+EDGE_WEIGHT_TYPE: EXPLICIT
+EDGE_WEIGHT_FORMAT: FULL_MATRIX 
+DISPLAY_DATA_TYPE: TWOD_DISPLAY
+EDGE_WEIGHT_SECTION
+  0   25     50    50    30
+ 25    0     40    40    45
+ 50   40      0    35    65
+ 50   40     35     0    80
+ 30   45     65    80     0
+DISPLAY_DATA_SECTION
+   1    1150.0  1760.0
+   2     630.0  1660.0
+   3      40.0  2090.0
+   4     750.0  1100.0
+EOF
