@@ -1,15 +1,21 @@
 %% 1. 경로 및 설정 변수
-basePath = 'C:\Users\UIAI\Desktop\크레인분석\Data\';
+%basePath = 'C:\Users\UIAI\Desktop\크레인분석\Data\';
+basePath = '/Users/dustin08/Documents/Github/PHM_Solutions_Crane_Mock_Test/Data'; % 경로수정
 targetDate = '260806';                          % [변수] 날짜 폴더명
+%targetRPM = '60';
 targetRPM = '70';
+%targetRPM = '80';
 targetCondition = fullfile('정상1', 'Vib');   % [변수] 상태 및 하위 폴더 경로
-baseOutputPath = 'C:\Users\UIAI\Desktop\크레인분석\extractData\';
+%baseOutputPath = 'C:\Users\UIAI\Desktop\크레인분석\extractData\';
+baseOutputPath = '/Users/dustin08/Documents/Github/PHM_Solutions_Crane_Mock_Test/extractData'; % 경로수정
 % 운전 데이터가 분리 저장될 폴더 경로
 outputFolder = fullfile(baseOutputPath, targetDate,targetRPM, targetCondition);
 
 fs = 3200;           % 샘플링 주파수 (Hz) -> 1초당 3200 샘플
 winTime = 1;       % 이동 RMS 계산 윈도우 시간 (초)
 processtype = 0;     % 상태 검출용 전처리 (0: Raw, 1: Velocity, 2: Envelope)
+%thresVal = 0.1;
+thresVal = 0.2; % 임계치 상향 조정
 
 % 저장 폴더 생성 (없는 경우)
 if ~exist(outputFolder, 'dir')
@@ -66,7 +72,8 @@ winLen = round(fs * winTime);
 movingRMS = sqrt(movmean(procTotalSignal.^2, winLen));
 
 maxRMS = max(movingRMS);
-thresholdRMS = 0.10 * maxRMS;
+%thresholdRMS = 0.10 * maxRMS;
+thresholdRMS = thresVal * maxRMS;
 
 % 운전 상태 여부 판단 (True/False 논리 배열)
 isOperating = movingRMS >= thresholdRMS;
