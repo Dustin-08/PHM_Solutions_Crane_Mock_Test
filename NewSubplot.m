@@ -38,18 +38,23 @@ use_dB = 0;            % true: dB 스케일(20*log10), false: 선형 스케일
 channelLabels = {'Motor-X','Motor-Y','Motor-Z', ...
                  'Reducer-X','Reducer-Y','Reducer-Z', ...
                  'Bearing-X','Bearing-Y','Bearing-Z'};
-axisGroupIdx.X = [1 4 7];   % X축 그룹 (Motor, Reducer, Bearing 순)
-axisGroupIdx.Y = [2 5 8];   % Y축 그룹
-axisGroupIdx.Z = [3 6 9];   % Z축(수직) 그룹
-axisNames = {'X', 'Y', 'Z'};
+axisGroupIdx.X = [1 4 7];   % X축 그룹 (센서 라벨 기준, Motor/Reducer/Bearing 순 - 물리방향 불일치 주의)
+axisGroupIdx.Y = [2 5 8];   % Y축 그룹 (센서 라벨 기준)
+axisGroupIdx.Z = [3 6 9];   % Z축 그룹 (센서 라벨 기준)
+axisGroupIdx.Vert = [1 5 8];  % ★ 실제 중력(수직) 방향 그룹 - 센서 라벨이 아니라 실측(사진)으로 확정
+axisNames = {'X', 'Y', 'Z', 'Vert'};
+axisDisplayNames = {'X(라벨기준)', 'Y(라벨기준)', 'Z(라벨기준)', '실제수직(Vertical)'};
 
-% ⚠ 주의: Motor 센서는 Reducer/Bearing과 설치 자세가 다름 (수직으로 세워서 장착).
-%   센서 라벨의 Z축이 커넥터 방향과 일치하는 타입이라, 3개 센서 모두 Z(수직) 그룹은
-%   실제 "상하 방향 진동"으로 서로 비교 가능함이 확인됨.
-%   다만 X/Y(수평면) 그룹은 Motor 센서가 Z축(수직) 기준으로 얼마나 회전되어
-%   부착됐는지에 따라 Reducer/Bearing의 X/Y와 물리적으로 다른 방향(축방향 vs
-%   반경방향 등)을 가리킬 수 있음 → 정확한 부착 회전각을 모른다면 X/Y 그룹 비교는
-%   "센서 자체 기준 축"일 뿐, 동일한 물리적 방향 비교가 아닐 수 있으니 해석에 주의.
+% ⚠ 2026-08-07 센서 라벨 사진 실측 결과 (Vibrasens 131.02-6D-2, 축 다이어그램 판독):
+%   센서 자체에 각인된 X/Y/Z 라벨은 "센서 하우징 기준"일 뿐, 설치 자세가 다르면
+%   실제 중력(수직) 방향과 일치하는 축이 위치마다 다릅니다. 사진으로 확인한 결과:
+%     - Motor   : X축이 실제 수직 (모터는 브라켓에 수직으로 세워서 장착됨)
+%     - Reducer : Y축이 실제 수직으로 추정 (Bearing과 동일하게 눕혀서 평행 장착 - 라벨 각인은 눈부심으로 완전판독은 안됨)
+%     - Bearing : Y축이 실제 수직 확인 (눕혀서 평행 장착, 라벨 판독 완료)
+%   따라서 기존 "Z축 그룹 = 수직 비교 가능"이라는 가정은 틀렸습니다.
+%   axisGroupIdx.Vert = [1 5 8] (Motor-X, Reducer-Y, Bearing-Y) 가 실제 수직 비교용 그룹입니다.
+%   X/Y/Z(라벨기준) 그룹은 센서 자체 축 이름만 같을 뿐 물리적으로 다른 방향을 가리킬 수 있으니
+%   위치간 비교시 axisGroupIdx.Vert 결과를 우선 참고하세요.
 % ▲▲▲ 여기까지 채널 설정 ▲▲▲
 
 %% 2. 파일 탐색 및 전체 채널(9개) 원본 신호 로드
@@ -125,12 +130,13 @@ for ch = 1:numChannels
     procChannelCell{ch} = vertcat(segProcCell{:});  % 해당 채널의 전체(파일 연결) 신호
 end
 
-%% 4. 축(X/Y/Z)별 그룹 플롯 - 메인 figure: 축, 서브플롯: 센서(채널)
+%% 4. 축별 그룹 플롯 - 메인 figure: 축(라벨X/Y/Z + 실제수직), 서브플롯: 센서(채널)
 for a = 1:numel(axisNames)
     axisName = axisNames{a};
+    axisDisp = axisDisplayNames{a};
     chIdxList = axisGroupIdx.(axisName);   % 이 축에 해당하는 channel 번호 3개
 
-    figure('Name', sprintf('%s축 비교 [Plot Mode: %d - %s]', axisName, plottype, processLabel), ...
+    figure('Name', sprintf('%s 비교 [Plot Mode: %d - %s]', axisDisp, plottype, processLabel), ...
            'NumberTitle', 'off', 'Position', [100 100 900 800]);
 
     for s = 1:numel(chIdxList)
@@ -139,11 +145,11 @@ for a = 1:numel(axisNames)
 
         drawChannelPlot(plottype, procChannelCell{ch}, fileRMS(ch, :), fs, winTime, ...
                          en_pw, normfact, overlapRatio, use_dB, xlimVal, numFiles, ...
-                         sprintf('%s (%s축, Sensor %d)', channelLabels{ch}, axisName, s), ...
+                         sprintf('%s (%s, Sensor %d)', channelLabels{ch}, axisDisp, s), ...
                          processLabel, targetDate);
     end
 
-    sgtitle(sprintf('%s축 채널 비교 - %s [%s]', axisName, processLabel, targetDate), ...
+    sgtitle(sprintf('%s 채널 비교 - %s [%s]', axisDisp, processLabel, targetDate), ...
             'FontSize', 13, 'FontWeight', 'bold');
 end
 
