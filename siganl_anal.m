@@ -2,10 +2,10 @@
 %basePath = 'C:\Users\UIAI\Desktop\크레인분석\Data\'; % Data  extractData
 basePath = '/Users/dustin08/Documents/Github/PHM_Solutions_Crane_Mock_Test/extractData'; % 경로수정
 targetDate = '260806';                          % [변수] 날짜 폴더명
-targetRPM = '60';
+%targetRPM = '60';
 %targetRPM = '70';
-%targetRPM = '80';
-targetCondition = fullfile('체인마모1', 'Vib');   % [변수] 상태 및 하위 폴더 경로
+targetRPM = '80';
+targetCondition = fullfile('체인이탈1', 'Vib');   % [변수] 상태 및 하위 폴더 경로
 %targetCondition = fullfile('정상3', 'Vib');   % [변수] 상태 및 하위 폴더 경로
 
 % 기본 신호 처리 매개변수
@@ -17,7 +17,8 @@ normfact = 1;         % 윈도우 정규화 계수
 % 0: Raw 신호 그대로 사용
 % 1: convmeas 함수를 사용한 속도 변환 ('vel')
 % 2: 힐베르트 변환 기반 포락 처리 (Envelope Analysis)
-processtype = 1;      
+processtype = 0;      % 260806 기욱님 수정
+%processtype = 1;     
 
 % ★ 2. 시각화 그래프 유형 선택 (plottype) ★
 % 0: 로우 데이터 / 시계열 파형 (Time-domain Signal)
