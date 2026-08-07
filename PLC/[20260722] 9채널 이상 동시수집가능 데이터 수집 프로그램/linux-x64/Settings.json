@@ -1,0 +1,20 @@
+[
+  {
+    "dirName": "20240510/leak1",
+    "AE": {
+      "fs": 1000000,
+      "interval": 1,
+      "bit": 16,
+      "min": -10,
+      "max": 10
+    },
+    "Vib": {
+      "fs": 25600,
+      "interval": 1,
+      "bit": 24,
+      "min": -15,
+      "max": 15,
+      "sensitivity": 100
+    }
+  }
+]
