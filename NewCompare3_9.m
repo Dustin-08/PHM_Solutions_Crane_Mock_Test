@@ -6,7 +6,7 @@
 basePath = '/Users/dustin08/Documents/Github/PHM_Solutions_Crane_Mock_Test/Data'; % 경로수정
 targetDate = '260807';
 targetRPM = '70';
-targetCondition = fullfile('등속_상승', 'Vib');   % [변수] 불러올 상태 폴더
+targetCondition = fullfile('등속_상승3', 'Vib');   % [변수] 불러올 상태 폴더
 
 fs = 3200;
 en_pw = 0;
