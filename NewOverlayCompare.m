@@ -19,11 +19,16 @@ use_dB = 0;
 channelLabels = {'Motor-X','Motor-Y','Motor-Z', ...
                  'Reducer-X','Reducer-Y','Reducer-Z', ...
                  'Bearing-X','Bearing-Y','Bearing-Z'};
-axisGroupIdx.X = [1 4 7];
-axisGroupIdx.Y = [2 5 8];
-axisGroupIdx.Z = [3 6 9];
-axisNames = {'X', 'Y', 'Z'};
+axisGroupIdx.X = [1 4 7];      % 센서 라벨 기준 X그룹 (물리방향 불일치 주의)
+axisGroupIdx.Y = [2 5 8];      % 센서 라벨 기준 Y그룹
+axisGroupIdx.Z = [3 6 9];      % 센서 라벨 기준 Z그룹
+axisGroupIdx.Vert = [1 5 8];   % ★ 실제 중력(수직) 방향 그룹 (사진 실측 확정: Motor-X, Reducer-Y, Bearing-Y)
+axisNames = {'X', 'Y', 'Z', 'Vert'};
+axisDisplayNames = {'X(라벨기준)', 'Y(라벨기준)', 'Z(라벨기준)', '실제수직(Vertical)'};
 locationNames = {'Motor', 'Reducer', 'Bearing'};   % s=1,2,3 순서와 일치 (axisGroupIdx의 각 원소 순서)
+
+% ⚠ 2026-08-07 센서 라벨 사진 실측: Motor=X축 수직, Reducer=Y축 수직(추정), Bearing=Y축 수직(확인).
+%   axisGroupIdx.Vert=[1 5 8]가 실제 수직 비교용, 나머지 X/Y/Z는 센서 라벨 기준일 뿐임.
 
 %% 2. ★★★ 이론 주파수 계산용 설정 (주파수계산.xlsx 기준) ★★★
 setHz = 80;                 % 인버터 설정 주파수 (Hz). 지금 조건: 80Hz = 2400rpm
@@ -128,25 +133,26 @@ end
 %% 5. 축(X/Y/Z)별 그룹 플롯 + 이론 주파수 오버레이
 for a = 1:numel(axisNames)
     axisName = axisNames{a};
+    axisDisp = axisDisplayNames{a};
     chIdxList = axisGroupIdx.(axisName);
 
-    figure('Name', sprintf('%s축 비교 + 이론주파수 [%s, %.0fHz]', axisName, processLabel, setHz), ...
+    figure('Name', sprintf('%s 비교 + 이론주파수 [%s, %.0fHz]', axisDisp, processLabel, setHz), ...
            'NumberTitle', 'off', 'Position', [100 100 950 850]);
 
     for s = 1:numel(chIdxList)
         ch = chIdxList(s);
-        loc = s;   % s=1 Motor, 2 Reducer, 3 Bearing (axisGroupIdx 정의 순서와 일치)
+        loc = s;   % s=1 Motor, 2 Reducer, 3 Bearing (axisGroupIdx 정의 순서와 일치 - Vert그룹도 동일 순서 유지됨)
         subplot(numel(chIdxList), 1, s);
 
         theoryLines = buildTheoryLines(loc, frByLocation, GMF, BPFO, BPFI, BSF, FTF, ...
                                         showHarmonics, showGMF, showBearingDefects, xlimVal);
 
         drawSpectrumWithTheory(procChannelCell{ch}, fs, winTime, en_pw, normfact, use_dB, ...
-                                xlimVal, channelLabels{ch}, processLabel, theoryLines);
+                                xlimVal, sprintf('%s (%s)', channelLabels{ch}, axisDisp), processLabel, theoryLines);
     end
 
-    sgtitle(sprintf('%s축 채널 비교 + 이론주파수선 - %s [설정 %.0fHz / %.0frpm]', ...
-            axisName, processLabel, setHz, motorRPM), 'FontSize', 13, 'FontWeight', 'bold');
+    sgtitle(sprintf('%s 채널 비교 + 이론주파수선 - %s [설정 %.0fHz / %.0frpm]', ...
+            axisDisp, processLabel, setHz, motorRPM), 'FontSize', 13, 'FontWeight', 'bold');
 end
 
 %% ===================== 로컬 함수 =====================
