@@ -22,11 +22,16 @@ faultAlpha = 0.85;     % 결함 라인 투명도(0~1). 겹칠 때 정상 라인�
 channelLabels = {'Motor-X','Motor-Y','Motor-Z', ...
                  'Reducer-X','Reducer-Y','Reducer-Z', ...
                  'Bearing-X','Bearing-Y','Bearing-Z'};
-axisGroupIdx.X = [1 4 7];
-axisGroupIdx.Y = [2 5 8];
-axisGroupIdx.Z = [3 6 9];
-axisNames = {'X', 'Y', 'Z'};
+axisGroupIdx.X = [1 4 7];      % 센서 라벨 기준 X그룹 (물리방향 불일치 주의)
+axisGroupIdx.Y = [2 5 8];      % 센서 라벨 기준 Y그룹
+axisGroupIdx.Z = [3 6 9];      % 센서 라벨 기준 Z그룹
+axisGroupIdx.Vert = [1 5 8];   % ★ 실제 중력(수직) 방향 그룹 (사진 실측: Motor-X, Reducer-Y, Bearing-Y)
+axisNames = {'X', 'Y', 'Z', 'Vert'};
+axisDisplayNames = {'X(라벨기준)', 'Y(라벨기준)', 'Z(라벨기준)', '실제수직(Vertical)'};
 locationNames = {'Motor', 'Reducer', 'Bearing'};
+
+% ⚠ 2026-08-07 센서 라벨 사진 실측: Motor=X축 수직, Reducer=Y축 수직(추정), Bearing=Y축 수직(확인).
+%   axisGroupIdx.Vert가 실제 수직 비교용, 나머지 X/Y/Z는 센서 라벨 기준일 뿐임.
 
 switch processtype
     case 0, processLabel = 'Raw Signal';
@@ -45,9 +50,10 @@ fprintf('=== 결함(체인이탈) 데이터 로드 중 ===\n');
 %% 3. 축(X/Y/Z)별 오버레이 비교 플롯
 for a = 1:numel(axisNames)
     axisName = axisNames{a};
+    axisDisp = axisDisplayNames{a};
     chIdxList = axisGroupIdx.(axisName);   % [Motor채널 Reducer채널 Bearing채널]
 
-    figure('Name', sprintf('%s축 정상vs결함 오버레이 비교 [%s]', axisName, processLabel), ...
+    figure('Name', sprintf('%s 정상vs결함 오버레이 비교 [%s]', axisDisp, processLabel), ...
            'NumberTitle', 'off', 'Position', [100 80 950 850]);
 
     for s = 1:numel(chIdxList)
@@ -74,12 +80,12 @@ for a = 1:numel(axisNames)
         grid on;
         xlabel('Frequency (Hz)', 'FontWeight', 'bold');
         ylabel(yLabelStr, 'FontWeight', 'bold');
-        title(sprintf('%s (%s축) - 정상 vs 결함 오버레이', loc, axisName));
+        title(sprintf('%s (%s) - 정상 vs 결함 오버레이', loc, axisDisp));
         xlim(xlimVal);
         legend('Location', 'northeast');
     end
 
-    sgtitle(sprintf('%s축 정상 vs 결함(체인이탈) 오버레이 - %s [%s]', axisName, processLabel, targetDate), ...
+    sgtitle(sprintf('%s 정상 vs 결함(체인이탈) 오버레이 - %s [%s]', axisDisp, processLabel, targetDate), ...
             'FontSize', 13, 'FontWeight', 'bold');
 end
 
