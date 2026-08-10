@@ -4,15 +4,17 @@
 
 %% 1. 경로 및 설정
 basePath = '/Users/dustin08/Documents/Github/PHM_Solutions_Crane_Mock_Test/Data'; % 경로수정
-targetDate = '260807';
+targetDate = '260810';
 targetRPM = '70';
-targetCondition = fullfile('등속_상승3', 'Vib');   % [변수] 불러올 상태 폴더
+targetCondition = fullfile('정상_등속_상승', 'Vib');   % [변수] 불러올 상태 폴더
 
 fs = 3200;
 en_pw = 0;
 normfact = 1;
 xlimVal = [1 300];
-winTime = 1.5;
+%winTime = 2;          % Δf = 1/winTime = 1/2 = 0.5Hz 해상도,  0.5초 단위로 나옴 [60Hz시 사용]
+winTime = 1;         % 이동 윈도우 시간 (초 단위), 1초 단위로 나옴                  [70Hz시 사용]
+%winTime = 1.5;      % 0.33초 단위로 나옴                                        [80Hz시 사용]       
 use_dB = 0;
 
 processTypesToRun = [0, 1, 2];   % 0:Raw, 1:속도변환('vel'), 2:포락(Envelope) - 순서대로 3개 창

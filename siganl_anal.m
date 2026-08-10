@@ -1,23 +1,24 @@
 %% 1. 경로 및 설정 변수 (사용자 정의 영역)
 %basePath = 'C:\Users\UIAI\Desktop\크레인분석\Data\'; % Data  extractData
 basePath = '/Users/dustin08/Documents/Github/PHM_Solutions_Crane_Mock_Test/extractData'; % 경로수정
-targetDate = '260806';                          % [변수] 날짜 폴더명
+targetDate = '260810';                          % [변수] 날짜 폴더명
 %targetRPM = '60';
-%targetRPM = '70';
-targetRPM = '80';
-targetCondition = fullfile('체인이탈1', 'Vib');   % [변수] 상태 및 하위 폴더 경로
+targetRPM = '70';
+%targetRPM = '80';
+targetCondition = fullfile('베어링내륜_', 'Vib');   % [변수] 상태 및 하위 폴더 경로
 %targetCondition = fullfile('정상3', 'Vib');   % [변수] 상태 및 하위 폴더 경로
 
 % 기본 신호 처리 매개변수
 fs = 3200;           % 샘플링 주파수 (Hz)
 en_pw = 0;            % 0: Amplitude Spectrum, 1: Power Spectrum
 normfact = 1;         % 윈도우 정규화 계수
-
+ㄴ
 % ★ 1. 신호 전처리 유형 선택 (processtype) ★
 % 0: Raw 신호 그대로 사용
 % 1: convmeas 함수를 사용한 속도 변환 ('vel')
 % 2: 힐베르트 변환 기반 포락 처리 (Envelope Analysis)
-processtype = 0;      % 260806 기욱님 수정
+%processtype = 0;      % 260806 기욱님 수정
+processtype = 2;      % 260806 기욱님 수정
 %processtype = 1;     
 
 % ★ 2. 시각화 그래프 유형 선택 (plottype) ★
@@ -26,15 +27,15 @@ processtype = 0;      % 260806 기욱님 수정
 % 2: 주파수 스펙트럼 (1D Frequency Spectrum)
 % 3: 스펙트로그램 (2D Time-Frequency Spectrogram)
 %plottype = 3;
-plottype = 2;
+plottype = 3;
 
 % ★ 3. 주파수 관찰 범위 설정 (Hz) ★
 %xlimVal = [1 100];   % [최소주파수 최대주파수] (예: 1Hz ~ 1000Hz)
 xlimVal = [1 300];   % [최소주파수 최대주파수] (예: 1Hz ~ 1000Hz)
 
 % 오버랩(Overlap) 및 시각화 옵션
-winTime = 2;          % Δf = 1/winTime = 1/2 = 0.5Hz 해상도,  0.5초 단위로 나옴 [60Hz시 사용]
-%winTime = 1;         % 이동 윈도우 시간 (초 단위), 1초 단위로 나옴                  [70Hz시 사용]
+%winTime = 2;          % Δf = 1/winTime = 1/2 = 0.5Hz 해상도,  0.5초 단위로 나옴 [60Hz시 사용]
+winTime = 1;         % 이동 윈도우 시간 (초 단위), 1초 단위로 나옴                  [70Hz시 사용]
 %winTime = 1.5;      % 0.33초 단위로 나옴                                     [80Hz시 사용]
 overlapRatio = 0.8;    % 오버랩 비율 (0.8 = 80% 중첩)
 use_dB = 0;        % true: dB 스케일(20*log10), false: 선형 스케일
