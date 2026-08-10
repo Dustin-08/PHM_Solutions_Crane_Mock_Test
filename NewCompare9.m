@@ -4,14 +4,14 @@
 
 %% 1. 경로 및 설정
 basePath = '/Users/dustin08/Documents/Github/PHM_Solutions_Crane_Mock_Test/Data'; % 경로수정
-targetDate = '260806';
-targetRPM = '80';
-targetCondition = fullfile('체인이탈1', 'Vib');   % [변수] 불러올 상태 폴더 (정상1, 체인이탈1 등)
+targetDate = '260807';
+targetRPM = '70';
+targetCondition = fullfile('등속5', 'Vib');   % [변수] 불러올 상태 폴더 (정상1, 체인이탈1 등)
 
 fs = 3200;
 en_pw = 0;
 normfact = 1;
-processtype = 0;      % 0: Raw, 1: 속도변환('vel'), 2: 포락(Envelope)
+processtype = 2;      % 0: Raw, 1: 속도변환('vel'), 2: 포락(Envelope)
 xlimVal = [1 300];
 winTime = 1.5;
 use_dB = 0;
