@@ -38,12 +38,12 @@ targetDate = '260811';
 
 % 비교할 RPM 또는 Hz
 % 첫 번째 실행
-targetRPM = '70';
+targetRPM = '80';
 
 % 두 번째 실행 시 아래처럼 변경
 % targetRPM = '70';
 
-condName = '정상';
+condName = '체인이탈';
 
 % 보기 대상
 % 0 = 전체
