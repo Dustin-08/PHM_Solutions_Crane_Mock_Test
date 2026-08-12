@@ -43,7 +43,7 @@ targetRPM = '80';
 % 두 번째 실행 시 아래처럼 변경
 % targetRPM = '70';
 
-condName = '체인이탈';
+condName = '정상';
 
 % 보기 대상
 % 0 = 전체
